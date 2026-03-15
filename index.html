@@ -1,0 +1,976 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Портфолио — Таргетолог</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --surface: #111118;
+    --border: #1e1e2e;
+    --accent: #ff3c5f;
+    --accent2: #ff8c42;
+    --accent3: #7c3aed;
+    --text: #e8e8f0;
+    --muted: #6b6b85;
+    --card: #14141f;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Manrope', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* Custom cursor */
+  .cursor {
+    position: fixed;
+    width: 10px; height: 10px;
+    background: var(--accent);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    transition: transform 0.1s;
+    mix-blend-mode: difference;
+  }
+  .cursor-ring {
+    position: fixed;
+    width: 36px; height: 36px;
+    border: 1.5px solid rgba(255,60,95,0.5);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9998;
+    transition: transform 0.15s, width 0.2s, height 0.2s;
+  }
+
+  /* Noise overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.4;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 20px 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: linear-gradient(180deg, rgba(10,10,15,0.95) 0%, transparent 100%);
+    backdrop-filter: blur(8px);
+  }
+  .nav-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    letter-spacing: 3px;
+    color: var(--text);
+    text-decoration: none;
+  }
+  .nav-logo span { color: var(--accent); }
+  .nav-links { display: flex; gap: 36px; }
+  .nav-links a {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--muted);
+    text-decoration: none;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--text); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding: 120px 48px 80px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 60% 60% at 80% 50%, rgba(124,58,237,0.12) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 50% at 20% 80%, rgba(255,60,95,0.08) 0%, transparent 60%);
+  }
+  .hero-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+    background-size: 60px 60px;
+    mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 30%, transparent 80%);
+  }
+
+  .hero-content { position: relative; z-index: 2; max-width: 760px; }
+
+  .hero-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--accent);
+    border: 1px solid rgba(255,60,95,0.3);
+    padding: 6px 14px;
+    border-radius: 100px;
+    margin-bottom: 32px;
+    animation: fadeUp 0.8s ease both;
+  }
+  .hero-tag::before {
+    content: '';
+    width: 6px; height: 6px;
+    background: var(--accent);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(0.7); }
+  }
+
+  .hero h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(64px, 10vw, 130px);
+    line-height: 0.92;
+    letter-spacing: 1px;
+    color: var(--text);
+    animation: fadeUp 0.8s 0.1s ease both;
+  }
+  .hero h1 .line-accent {
+    display: block;
+    color: transparent;
+    -webkit-text-stroke: 1.5px var(--accent);
+  }
+
+  .hero-sub {
+    margin-top: 28px;
+    font-size: 17px;
+    font-weight: 300;
+    color: var(--muted);
+    line-height: 1.65;
+    max-width: 520px;
+    animation: fadeUp 0.8s 0.2s ease both;
+  }
+  .hero-sub strong { color: var(--text); font-weight: 600; }
+
+  .hero-actions {
+    display: flex;
+    gap: 16px;
+    margin-top: 44px;
+    animation: fadeUp 0.8s 0.3s ease both;
+  }
+  .btn-primary {
+    background: var(--accent);
+    color: #fff;
+    font-family: 'Manrope', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 14px 32px;
+    border: none;
+    border-radius: 4px;
+    cursor: none;
+    text-decoration: none;
+    transition: background 0.2s, transform 0.15s;
+    display: inline-block;
+  }
+  .btn-primary:hover { background: #e62e50; transform: translateY(-2px); }
+  .btn-ghost {
+    background: transparent;
+    color: var(--text);
+    font-family: 'Manrope', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 14px 32px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    cursor: none;
+    text-decoration: none;
+    transition: border-color 0.2s, transform 0.15s;
+    display: inline-block;
+  }
+  .btn-ghost:hover { border-color: var(--muted); transform: translateY(-2px); }
+
+  .hero-stats {
+    display: flex;
+    gap: 48px;
+    margin-top: 64px;
+    animation: fadeUp 0.8s 0.4s ease both;
+  }
+  .stat-item { }
+  .stat-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 42px;
+    color: var(--text);
+    line-height: 1;
+  }
+  .stat-num span { color: var(--accent); }
+  .stat-label {
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--muted);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-top: 4px;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* SECTION GENERAL */
+  section { padding: 100px 48px; position: relative; }
+  .section-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 16px;
+  }
+  .section-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(38px, 5vw, 60px);
+    line-height: 1;
+    color: var(--text);
+    letter-spacing: 1px;
+    margin-bottom: 48px;
+  }
+
+  /* SERVICES */
+  .services-bg {
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 2px;
+  }
+  .service-card {
+    background: var(--card);
+    padding: 36px 32px;
+    border: 1px solid var(--border);
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.25s, transform 0.25s;
+  }
+  .service-card:hover { border-color: rgba(255,60,95,0.4); transform: translateY(-4px); }
+  .service-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent), var(--accent3));
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s;
+  }
+  .service-card:hover::before { transform: scaleX(1); }
+  .service-icon {
+    font-size: 28px;
+    margin-bottom: 20px;
+    display: block;
+  }
+  .service-card h3 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 24px;
+    letter-spacing: 1px;
+    color: var(--text);
+    margin-bottom: 12px;
+  }
+  .service-card p {
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.7;
+  }
+
+  /* CASES */
+  .cases-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 24px;
+  }
+  .case-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform 0.25s, border-color 0.25s;
+  }
+  .case-card:hover { transform: translateY(-6px); border-color: rgba(255,60,95,0.3); }
+  .case-top {
+    padding: 28px 28px 20px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+  .case-niche {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--accent);
+    background: rgba(255,60,95,0.1);
+    padding: 4px 10px;
+    border-radius: 100px;
+  }
+  .case-platform {
+    font-size: 12px;
+    color: var(--muted);
+    font-weight: 500;
+  }
+  .case-body { padding: 24px 28px 28px; }
+  .case-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 26px;
+    letter-spacing: 1px;
+    color: var(--text);
+    margin-bottom: 16px;
+  }
+  .case-metrics {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 20px;
+  }
+  .metric {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 14px;
+  }
+  .metric-val {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 26px;
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .metric-val.green { color: #4ade80; }
+  .metric-val.orange { color: var(--accent2); }
+  .metric-val.purple { color: #a78bfa; }
+  .metric-val.red { color: var(--accent); }
+  .metric-label {
+    font-size: 11px;
+    color: var(--muted);
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  .case-desc {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.7;
+  }
+
+  /* TOOLS */
+  .tools-section { background: var(--surface); }
+  .tools-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .tool-badge {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 10px 18px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text);
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  .tool-badge:hover { border-color: rgba(255,60,95,0.4); transform: translateY(-2px); }
+  .tool-dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: var(--accent);
+    flex-shrink: 0;
+  }
+  .tool-dot.purple { background: var(--accent3); }
+  .tool-dot.orange { background: var(--accent2); }
+
+  /* PROCESS */
+  .process-steps {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 0;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  .process-step {
+    padding: 36px 28px;
+    border-right: 1px solid var(--border);
+    position: relative;
+  }
+  .process-step:last-child { border-right: none; }
+  .step-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 56px;
+    color: transparent;
+    -webkit-text-stroke: 1px rgba(255,255,255,0.07);
+    line-height: 1;
+    margin-bottom: 12px;
+  }
+  .step-title {
+    font-weight: 700;
+    font-size: 15px;
+    color: var(--text);
+    margin-bottom: 10px;
+  }
+  .step-desc { font-size: 13px; color: var(--muted); line-height: 1.65; }
+  .step-line {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent), var(--accent3));
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s;
+  }
+  .process-step:hover .step-line { transform: scaleX(1); }
+
+  /* REVIEWS */
+  .reviews-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+  }
+  .review-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 28px;
+    transition: border-color 0.2s;
+  }
+  .review-card:hover { border-color: rgba(255,60,95,0.3); }
+  .review-stars {
+    color: var(--accent2);
+    font-size: 14px;
+    margin-bottom: 14px;
+    letter-spacing: 2px;
+  }
+  .review-text {
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.7;
+    margin-bottom: 20px;
+    font-style: italic;
+  }
+  .review-text::before { content: '"'; color: var(--accent); }
+  .review-text::after  { content: '"'; color: var(--accent); }
+  .review-author { display: flex; align-items: center; gap: 12px; }
+  .review-avatar {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent), var(--accent3));
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 800;
+    font-size: 14px;
+    flex-shrink: 0;
+  }
+  .review-name { font-size: 14px; font-weight: 700; color: var(--text); }
+  .review-biz  { font-size: 12px; color: var(--muted); margin-top: 2px; }
+
+  /* CTA */
+  .cta-section {
+    text-align: center;
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+  }
+  .cta-glow {
+    position: absolute;
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(255,60,95,0.12), transparent 70%);
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+  }
+  .cta-section .section-title { margin-bottom: 16px; }
+  .cta-sub {
+    font-size: 16px;
+    color: var(--muted);
+    margin-bottom: 40px;
+    max-width: 440px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.65;
+  }
+  .cta-contacts { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; }
+  .contact-chip {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 12px 20px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+    text-decoration: none;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  .contact-chip:hover { border-color: var(--accent); transform: translateY(-2px); }
+  .contact-chip .icon { font-size: 18px; }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 28px 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
+    color: var(--muted);
+  }
+
+  /* SCROLL ANIMATION */
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  @media (max-width: 768px) {
+    nav { padding: 16px 20px; }
+    .nav-links { display: none; }
+    section { padding: 70px 20px; }
+    .hero { padding: 100px 20px 60px; }
+    .hero-stats { gap: 28px; }
+    footer { flex-direction: column; gap: 8px; text-align: center; }
+    .process-steps { grid-template-columns: 1fr; }
+    .process-step { border-right: none; border-bottom: 1px solid var(--border); }
+    .process-step:last-child { border-bottom: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">ТАРГЕТ<span>.</span>ПРО</a>
+  <div class="nav-links">
+    <a href="#services">Услуги</a>
+    <a href="#cases">Кейсы</a>
+    <a href="#process">Процесс</a>
+    <a href="#reviews">Отзывы</a>
+    <a href="#contact">Контакт</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-content">
+    <div class="hero-tag">Таргетолог · Доступен к заказам</div>
+    <h1>
+      Реклама,<br>
+      <span class="line-accent">которая</span>
+      продаёт
+    </h1>
+    <p class="hero-sub">
+      Настраиваю таргетированную рекламу во ВКонтакте, Telegram Ads и myTarget.
+      <strong>Снижаю стоимость лида</strong> и приношу реальных покупателей — без слитого бюджета.
+    </p>
+    <div class="hero-actions">
+      <a href="#contact" class="btn-primary">Обсудить проект</a>
+      <a href="#cases" class="btn-ghost">Смотреть кейсы</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat-item">
+        <div class="stat-num">47<span>+</span></div>
+        <div class="stat-label">Проектов</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">₽12<span>М</span></div>
+        <div class="stat-label">Освоено бюджетов</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">3.2<span>x</span></div>
+        <div class="stat-label">Средний ROAS</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">2<span>г.</span></div>
+        <div class="stat-label">Опыта</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="services-bg" id="services">
+  <div class="section-label">Услуги</div>
+  <div class="section-title">Что я делаю</div>
+  <div class="services-grid reveal">
+    <div class="service-card">
+      <span class="service-icon">🎯</span>
+      <h3>Таргет ВКонтакте</h3>
+      <p>Настройка рекламных кампаний в VK Ads: аудитории, ретаргетинг, look-alike. Оптимизация под продажи или лиды.</p>
+    </div>
+    <div class="service-card">
+      <span class="service-icon">✈️</span>
+      <h3>Telegram Ads</h3>
+      <p>Реклама в Telegram-каналах и через официальную платформу. Привлекаю подписчиков и трафик на сайт.</p>
+    </div>
+    <div class="service-card">
+      <span class="service-icon">📊</span>
+      <h3>Аналитика и отчёты</h3>
+      <p>Еженедельные отчёты по ключевым метрикам: CPL, CTR, ROAS. Прозрачность на каждом этапе работы.</p>
+    </div>
+    <div class="service-card">
+      <span class="service-icon">🧠</span>
+      <h3>Аудит рекламы</h3>
+      <p>Разбираю текущие кампании, нахожу точки роста и ошибки. Говорю чётко: что сливает бюджет и как это исправить.</p>
+    </div>
+    <div class="service-card">
+      <span class="service-icon">🎨</span>
+      <h3>Креативы</h3>
+      <p>Разработка рекламных баннеров и текстов объявлений. A/B тестирование для поиска лучшего креатива.</p>
+    </div>
+    <div class="service-card">
+      <span class="service-icon">🔄</span>
+      <h3>Ведение на месяц+</h3>
+      <p>Постоянная оптимизация кампаний, масштабирование работающих связок и оперативная реакция на изменения.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CASES -->
+<section id="cases">
+  <div class="section-label">Кейсы</div>
+  <div class="section-title">Результаты клиентов</div>
+  <div class="cases-grid">
+
+    <div class="case-card reveal">
+      <div class="case-top">
+        <span class="case-niche">Одежда</span>
+        <span class="case-platform">ВКонтакте</span>
+      </div>
+      <div class="case-body">
+        <div class="case-name">Женский бренд одежды</div>
+        <div class="case-metrics">
+          <div class="metric">
+            <div class="metric-val green">-62%</div>
+            <div class="metric-label">Стоим. лида</div>
+          </div>
+          <div class="metric">
+            <div class="metric-val orange">₽183</div>
+            <div class="metric-label">CPL итого</div>
+          </div>
+          <div class="metric">
+            <div class="metric-val purple">4.1x</div>
+            <div class="metric-label">ROAS</div>
+          </div>
+          <div class="metric">
+            <div class="metric-val red">₽80К</div>
+            <div class="metric-label">Бюджет/мес</div>
+          </div>
+        </div>
+        <p class="case-desc">Пришли с CPL ₽480. Переработал аудитории, запустил ретаргетинг по корзине. За 6 недель снизили стоимость лида до ₽183, выручка выросла в 2 раза.</p>
+      </div>
+    </div>
+
+    <div class="case-card reveal">
+      <div class="case-top">
+        <span class="case-niche">Онлайн-курсы</span>
+        <span class="case-platform">Telegram Ads</span>
+      </div>
+      <div class="case-body">
+        <div class="case-name">Школа английского языка</div>
+        <div class="case-metrics">
+          <div class="metric">
+            <div class="metric-val green">+340%</div>
+            <div class="metric-label">Подписчики</div>
+          </div>
+          <div class="metric">
+            <div class="metric-val orange">₽41</div>
+            <div class="metric-label">Цена подп.</div>
+          </div>
+          <div class="metric">
+            <div class="metric-val purple">2.8x</div>
+            <div class="metric-label">ROAS</div>
+          </div>
+          <div class="metric">
+            <div class="metric-val red">₽50К</div>
+            <div class="metric-label">Бюджет</div>
+          </div>
+        </div>
+        <p class="case-desc">Запустили канал с нуля. Через Telegram Ads набрали 1 200 подписчиков по ₽41. После прогрева продали курсов на ₽140 000.</p>
+      </div>
+    </div>
+
+    <div class="case-card reveal">
+      <div class="case-top">
+        <span class="case-niche">Услуги</span>
+        <span class="case-platform">ВКонтакте + myTarget</span>
+      </div>
+      <div class="case-body">
+        <div class="case-name">Студия лазерной эпиляции</div>
+        <div class="case-metrics">
+          <div class="metric">
+            <div class="metric-val green">87</div>
+            <div class="metric-label">Заявок/мес</div>
+          </div>
+          <div class="metric">
+            <div class="metric-val orange">₽520</div>
+            <div class="metric-label">Цена заявки</div>
+          </div>
+          <div class="metric">
+            <div class="metric-val purple">3.5x</div>
+            <div class="metric-label">ROAS</div>
+          </div>
+          <div class="metric">
+            <div class="metric-val red">₽45К</div>
+            <div class="metric-label">Бюджет/мес</div>
+          </div>
+        </div>
+        <p class="case-desc">Гео-таргетинг по 3 км от салона, аудитории по интересам красота + уход. Результат: 87 заявок в первый месяц при бюджете ₽45 000.</p>
+      </div>
+    </div>
+
+    <div class="case-card reveal">
+      <div class="case-top">
+        <span class="case-niche">E-commerce</span>
+        <span class="case-platform">ВКонтакте</span>
+      </div>
+      <div class="case-body">
+        <div class="case-name">Магазин товаров для дома</div>
+        <div class="case-metrics">
+          <div class="metric">
+            <div class="metric-val green">+210%</div>
+            <div class="metric-label">Продажи</div>
+          </div>
+          <div class="metric">
+            <div class="metric-val orange">₽290</div>
+            <div class="metric-label">CPL</div>
+          </div>
+          <div class="metric">
+            <div class="metric-val purple">3.9x</div>
+            <div class="metric-label">ROAS</div>
+          </div>
+          <div class="metric">
+            <div class="metric-val red">₽120К</div>
+            <div class="metric-label">Бюджет/мес</div>
+          </div>
+        </div>
+        <p class="case-desc">Динамический ретаргетинг на посетителей сайта + look-alike по базе покупателей. Продажи выросли на 210% за 2 месяца работы.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- TOOLS -->
+<section class="tools-section" id="tools">
+  <div class="section-label">Инструменты</div>
+  <div class="section-title">Работаю с</div>
+  <div class="tools-grid reveal">
+    <div class="tool-badge"><div class="tool-dot"></div>VK Ads</div>
+    <div class="tool-badge"><div class="tool-dot purple"></div>Telegram Ads</div>
+    <div class="tool-badge"><div class="tool-dot orange"></div>myTarget</div>
+    <div class="tool-badge"><div class="tool-dot"></div>TargetHunter</div>
+    <div class="tool-badge"><div class="tool-dot purple"></div>Pepper.Ninja</div>
+    <div class="tool-badge"><div class="tool-dot orange"></div>Яндекс.Метрика</div>
+    <div class="tool-badge"><div class="tool-dot"></div>VK Pixel</div>
+    <div class="tool-badge"><div class="tool-dot purple"></div>Google Analytics</div>
+    <div class="tool-badge"><div class="tool-dot orange"></div>Canva / Figma</div>
+    <div class="tool-badge"><div class="tool-dot"></div>Трекер Keitaro</div>
+    <div class="tool-badge"><div class="tool-dot purple"></div>Notion</div>
+    <div class="tool-badge"><div class="tool-dot orange"></div>AmoCRM</div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section id="process">
+  <div class="section-label">Процесс</div>
+  <div class="section-title">Как я работаю</div>
+  <div class="process-steps reveal">
+    <div class="process-step">
+      <div class="step-line"></div>
+      <div class="step-num">01</div>
+      <div class="step-title">Брифинг</div>
+      <p class="step-desc">Изучаю бизнес, ЦА, конкурентов и цели. Определяем KPI и бюджет.</p>
+    </div>
+    <div class="process-step">
+      <div class="step-line"></div>
+      <div class="step-num">02</div>
+      <div class="step-title">Стратегия</div>
+      <p class="step-desc">Прорабатываю сегменты аудиторий, выбираю площадки и форматы объявлений.</p>
+    </div>
+    <div class="process-step">
+      <div class="step-line"></div>
+      <div class="step-num">03</div>
+      <div class="step-title">Запуск</div>
+      <p class="step-desc">Создаю кампании, пишу тексты, делаю или согласую креативы. Запуск за 2–3 дня.</p>
+    </div>
+    <div class="process-step">
+      <div class="step-line"></div>
+      <div class="step-num">04</div>
+      <div class="step-title">Оптимизация</div>
+      <p class="step-desc">Ежедневный мониторинг. Масштабирую работающее, отключаю неэффективное.</p>
+    </div>
+    <div class="process-step">
+      <div class="step-line"></div>
+      <div class="step-num">05</div>
+      <div class="step-title">Отчётность</div>
+      <p class="step-desc">Еженедельный отчёт с цифрами и выводами. Полная прозрачность расходов.</p>
+    </div>
+  </div>
+</section>
+
+<!-- REVIEWS -->
+<section id="reviews">
+  <div class="section-label">Отзывы</div>
+  <div class="section-title">Говорят клиенты</div>
+  <div class="reviews-grid">
+
+    <div class="review-card reveal">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">Наконец-то нашли таргетолога, который объясняет каждое решение. За 2 месяца стоимость заявки упала вдвое. Однозначно продолжаем.</p>
+      <div class="review-author">
+        <div class="review-avatar">МК</div>
+        <div>
+          <div class="review-name">Мария К.</div>
+          <div class="review-biz">Салон красоты, Москва</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="review-card reveal">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">Грамотно выстроил воронку через Telegram. Запуск курса окупился в 3 раза. Работает чётко и без лишних слов — только результат.</p>
+      <div class="review-author">
+        <div class="review-avatar">АВ</div>
+        <div>
+          <div class="review-name">Алексей В.</div>
+          <div class="review-biz">Онлайн-школа</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="review-card reveal">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">До этого два таргетолога сливали бюджет впустую. Здесь всё иначе — чёткая стратегия, ежедневный контроль и реальные продажи в магазине.</p>
+      <div class="review-author">
+        <div class="review-avatar">ОД</div>
+        <div>
+          <div class="review-name">Ольга Д.</div>
+          <div class="review-biz">Магазин одежды</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section" id="contact">
+  <div class="cta-glow"></div>
+  <div class="section-label" style="position:relative">Контакт</div>
+  <div class="section-title" style="position:relative">Готов запустить рекламу?</div>
+  <p class="cta-sub" style="position:relative">Напишите мне — разберём вашу задачу и обсудим, как привести клиентов.</p>
+  <div class="cta-contacts">
+    <a href="https://t.me/yourusername" class="contact-chip">
+      <span class="icon">✈️</span> Telegram
+    </a>
+    <a href="https://vk.com/yourusername" class="contact-chip">
+      <span class="icon">💬</span> ВКонтакте
+    </a>
+    <a href="mailto:your@email.com" class="contact-chip">
+      <span class="icon">📧</span> Email
+    </a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span>© 2025 · Таргетолог · Все права защищены</span>
+  <span>Реклама в VK · Telegram Ads · myTarget</span>
+</footer>
+
+<script>
+  // Custom cursor
+  const cursor = document.getElementById('cursor');
+  const ring   = document.getElementById('cursorRing');
+  let mx = 0, my = 0, rx = 0, ry = 0;
+
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY;
+    cursor.style.left = mx - 5 + 'px';
+    cursor.style.top  = my - 5 + 'px';
+  });
+
+  (function animateRing() {
+    rx += (mx - rx - 18) * 0.12;
+    ry += (my - ry - 18) * 0.12;
+    ring.style.left = rx + 'px';
+    ring.style.top  = ry + 'px';
+    requestAnimationFrame(animateRing);
+  })();
+
+  document.querySelectorAll('a, button').forEach(el => {
+    el.addEventListener('mouseenter', () => {
+      ring.style.width = '56px'; ring.style.height = '56px';
+      ring.style.borderColor = 'rgba(255,60,95,0.8)';
+    });
+    el.addEventListener('mouseleave', () => {
+      ring.style.width = '36px'; ring.style.height = '36px';
+      ring.style.borderColor = 'rgba(255,60,95,0.5)';
+    });
+  });
+
+  // Scroll reveal
+  const revealEls = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), 80);
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  revealEls.forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
